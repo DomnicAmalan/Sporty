@@ -1,0 +1,10 @@
+
+{% extends 'layout.html' %}
+
+{% block container %}
+<div id="index-main-container"></div>
+{% endblock %}
+
+{% block additional_footer %}
+<script src="{{ url_for('static', filename='js/dist/index.min.js') }}"></script>
+{% endblock %}

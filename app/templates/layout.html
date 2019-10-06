@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% block additional_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<section>
+
+    {% block before_container %}{% endblock %}
+
+    <main role="main" class="container">
+		<div class="wrapper">
+			<div class="page-title-wrapper container-fluid">
+				<h2 class="col-lg-8 row">{% block page_title %}{% endblock %}</h2>
+				<div class="col-lg-4 row action-links pull-right">{% block action_link %}{% endblock %}</div>
+			</div>
+			{% block container %}{% endblock %}
+		</div>
+    </main>
+</section>
+
+<footer class="dc-container">
+    {% block additional_footer %}{% endblock %}
+</footer>
+
+</body>
+</html>
