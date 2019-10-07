@@ -2,22 +2,24 @@
 from flask import Flask, request, render_template
 from app.routes.client.controllers import client
 from app.routes.admin.controllers import admin
+from app.api.sports import api
 from app.config import configure_app
 from app.utils import get_instance_folder_path
 from app.data.models import db
 import logging
-from app.cache import cache, cache_config
+from app.cache import cache
 
 app = Flask(__name__, instance_path=get_instance_folder_path(),
             instance_relative_config=True,
             template_folder='templates')
 
-cache.init_app(app, cache_config)
 
 configure_app(app)
+cache.init_app(app)
 
 app.register_blueprint(client, url_prefix='/')
 app.register_blueprint(admin, url_prefix='/admin')
+app.register_blueprint(api, url_prefix='/api')
 
 
 @app.errorhandler(404)
@@ -33,4 +35,4 @@ def internal_server_error(error):
 @app.errorhandler(Exception)
 def unhandled_exception(e):
     app.logger.error('Unhandled Exception: %s', (e))
-    return render_template('500.htm'), 500
+    return render_template('500.html'), 500

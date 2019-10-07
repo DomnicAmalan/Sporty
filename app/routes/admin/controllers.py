@@ -1,9 +1,9 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
+from app.data.models import sports_list
+
+admin = Blueprint('admin', __name__, template_folder="templates")
 
 
-admin = Blueprint('admin', __name__, template_folder="templates/client")
-
-
-@admin.route('/google')
+@admin.route('/')
 def index():
-    return "Admin"
+    return render_template("admin/sports.html")

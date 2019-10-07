@@ -4,7 +4,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
-        "index":'./app/static/js/src/index.jsx'
+        "index":'./app/static/js/src/client/index.jsx',
+        "sports": './app/static/js/src/admin/sports.jsx'
     },
     output: {
         path: path.join(__dirname, '/app/static/js/dist'),
