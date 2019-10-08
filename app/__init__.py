@@ -15,11 +15,12 @@ app = Flask(__name__, instance_path=get_instance_folder_path(),
 
 
 configure_app(app)
-cache.clear(app)
-cache.init_app(app)
 
-# with app.app_context():
-#     print("Cache Cleared")
+cache.init_app(app)
+with app.app_context():
+    print("cache cleared")
+    cache.clear()
+
     
 
 app.register_blueprint(client, url_prefix='/')
