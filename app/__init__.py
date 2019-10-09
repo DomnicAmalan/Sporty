@@ -2,17 +2,17 @@
 from flask import Flask, request, render_template
 from app.routes.client.controllers import client
 from app.routes.admin.controllers import admin
-from app.api.sports import api
+from app.routes.api.api import api
 from app.config import configure_app
 from app.utils import get_instance_folder_path
 from app.data.models import db
 import logging
 from app.cache import cache
 
+
 app = Flask(__name__, instance_path=get_instance_folder_path(),
             instance_relative_config=True,
             template_folder='templates')
-
 
 configure_app(app)
 

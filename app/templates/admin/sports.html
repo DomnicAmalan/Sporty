@@ -1,11 +1,11 @@
 
 {% block container %}
 <head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pagination.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/client/pagination.css') }}">
 </head>
 <div id="sports-main-container"></div>
 {% endblock %}
 
 {% block additional_footer %}
-<script src="{{ url_for('static', filename='js/dist/sports.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dist/sports.min.js') }}"></script>
 {% endblock %}

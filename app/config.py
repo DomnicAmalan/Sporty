@@ -15,6 +15,18 @@ class BaseConfig(object):
     COMPRESS_LEVEL = 6
     COMPRESS_MIN_SIZE = 500
     SUPPORTED_LANGUAGES = {'en': 'English'}
+
+    APP_HOST = "0.0.0.0"
+    APP_PORT = 3333
+
+class GoogleConfig(BaseConfig):
+    # Google Authentication
+    GOOGLE_CLIENT_ID = "1066877482822-pj66le6imct9gr93qhcb6mbm137745mi.apps.googleusercontent.com"
+    GOOGLE_CLIENT_SECRET = "yCQSKwqRIyQHVERITU1BM1ll"
+    REDIRECT_URI = 'https://localhost:5000/gCallback'
+    AUTH_URI = 'https://accounts.google.com/o/oauth2/v2/auth'
+    TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
+    USER_INFO = 'https://www.googleapis.com/userinfo/v2/me'
     
 
 class DevelopmentConfig(BaseConfig):
@@ -23,7 +35,7 @@ class DevelopmentConfig(BaseConfig):
     ENV = 'dev'
     #Mongo Connection
     Hostname = "localhost"
-    Port = 27017
+    DB_Port = 27017
     DB_NAME = "local"
     SECRET_KEY = '5f18df59bd0eaafc1f2d79c396d6108d7e96073eacd0776a'
 
