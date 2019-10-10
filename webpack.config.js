@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+    watch: true,
     entry: {
         "index":'./app/static/js/src/client/index.jsx',
         "sports": './app/static/js/src/admin/sports.jsx',
@@ -21,7 +22,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets:['@babel/react']
-                    }
+                    },
                 }
             }
         ]

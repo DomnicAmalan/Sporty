@@ -1,45 +1,78 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Axios from 'axios';
-import { FormCreator } from "../components/FormCreator.jsx";
 
 
-
-class App extends React.Component {
+class SignUp extends React.Component {
+    
 
     constructor(props){
         super(props);
-        this.state = {
 
-        }
+        this.state = {}
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
-        Axios.get("/api/schema/user/signup").then(res => {
-            let data = res.data
+    async UNSAFE_componentWillMount(){
+        this.setState({
+            schema : [],
+            urls: {},
+            data: {},
+            errors: {}
+        })
+    }
+
+    async componentDidMount(){
+        Axios.get('/api/signup/user/schema').then(res => {
+            let data = {}
+            let errors = {}
+            res.data.schema.forEach(fields => {
+                data[fields.name] = ""
+                errors[fields.name] = ""
+            })
             this.setState({
-                schema: data.schema,
-                urls: data.urls,
-                data: {}
+                schema : res.data.schema,
+                urls: res.data.urls,
+                data: data,
+                errors: errors
             })
         })
     }
 
     handleChange(e){
         let data = this.state.data
-        data[e.target.name] = e.target.value
-        this.setState({
-            data: data
-        })
+        const { name, value } = event.target;
+        let errors = this.state.errors;
 
+                
+    }
+
+    handleSubmit(){
+        let urls = this.state.urls
+        let data = this.state.data
+        Axios.post(urls['submit_url'], data).then(res => {
+            console.log(res.data)
+        })
     }
 
     render() {
+        let input = []
+        this.state.schema.forEach(tag => {
+            input.push(
+                <div>
+                    <label>{tag['field_name']}</label>
+                    <input type="text" name={tag['name']} onChange={(e)=>this.handleChange(e)} required/>
+                </div>
+            )
+        })
         return (
-           <FormCreator schema={this.state.schema} data = {this.state.data} handleChange={this.handleChange}/>
+            <div>
+                {input}
+                <button onClick={()=>this.handleSubmit()}>Sign Up</button>
+            </div>
         );
     }
   }
 
-  ReactDOM.render(<App/>, document.getElementById('signup-main-container'));
+  ReactDOM.render(<SignUp/>, document.getElementById('signup-main-container'));
