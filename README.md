@@ -16,4 +16,13 @@ pip install -r requirements.txt
 npm i
 
 
+Run
+
+npm run-script build-dev
+
+python run.py
+
+go to localhost port - 3333
+
+
 
