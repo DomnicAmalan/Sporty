@@ -13,6 +13,7 @@ module.exports = {
         path: path.join(__dirname, '/app/static/js/dist'),
         filename: '[name].min.js'
     },
+    externals: ['axios'],
     module: {
         rules: [
             {
