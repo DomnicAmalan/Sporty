@@ -1,25 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Axios from 'axios';
+import { Redirect } from '../components/Redirect.jsx'
+import { DropdownExampleSearchDropdown } from '../components/Dropdown.jsx'
 
 
-class ThankYou extends React.Component{
-    componentDidMount(){
-        setTimeout((time) => { 
-            console.log(time)
-            window.location = "/"
-        }, 5000)
-    }
-
-    render(){
-        return(
-            <div>
-                Thank You For Registering
-                <div>You will be redirected to Login. To go Now <a href="/">Click Here</a></div>
-            </div>
-        )
-    }
-}
 
 class SignUp extends React.Component {
 
@@ -36,6 +21,7 @@ class SignUp extends React.Component {
             schema : [],
             urls: {},
             data: {},
+            countries: [],
             error_message: null,
             signed_up: false
         })
@@ -50,7 +36,8 @@ class SignUp extends React.Component {
             this.setState({
                 schema : res.data.schema,
                 urls: res.data.urls,
-                data: data
+                data: data,
+                countries: res.data.countries
             })
         })
     }
@@ -82,10 +69,26 @@ class SignUp extends React.Component {
                 </div>
             )
         })
+
+        let redirect_message=[]
+
+        redirect_message.push(
+            <div>
+                Thank You For Registering
+                <div>You will be redirected to Login. To go Now <a href="/login">Click Here</a></div>
+            </div>
+        )
+
         return (
             <div>
                 {this.state.error_message ? <strong>{this.state.error_message}</strong>:""}
-                {this.state.signed_up ? <ThankYou />: <div>{input}<button onClick={()=>this.handleSubmit()}>Sign Up</button></div>}
+                {
+                    this.state.signed_up ? <Redirect timeout={5000} redirect_url={'/login'} message={redirect_message}/> : 
+                    <div>
+                        {input}
+                        <button onClick={()=>this.handleSubmit()}>Sign Up</button>
+                    </div>
+                }
             </div>
         );
     }

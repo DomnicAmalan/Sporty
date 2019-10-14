@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Axios from 'axios';
+import { Redirect } from '../components/Redirect.jsx'
 
 class Login extends React.Component{
 
@@ -14,7 +15,9 @@ class Login extends React.Component{
         this.setState({
             schema : [],
             urls: {},
-            data: {}
+            data: {},
+            error_message: "",
+            signed_in: false
         })
     }
 
@@ -46,7 +49,7 @@ class Login extends React.Component{
         let urls = this.state.urls
         let data = this.state.data
         Axios.post(urls['submit_url'], data).then(res => {
-            console.log(res.data.status)
+            res.data.status ? this.setState({signed_in: true}) : this.setState({error_message: res.data.message})
         })
     }
 
@@ -61,11 +64,16 @@ class Login extends React.Component{
             )
         })
 
+        let redirect_message=[]
+        redirect_message.push(
+            <div>Loggin You In</div>
+        )
+
         return(
-            <form>
-                {input}
-                <button onClick={()=>this.handleSubmit()}>Log In</button>
-            </form>
+            <div>
+                {this.state.error_message ? <strong>{this.state.error_message}</strong>:""}
+                {this.state.signed_in ? <Redirect timeout={3000} redirect_url={'/login'} message={redirect_message} /> : <div>{input}<button onClick={()=>this.handleSubmit()}>Log In</button></div>}
+            </div>
         )
     }
 }

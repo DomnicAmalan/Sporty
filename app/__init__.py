@@ -8,20 +8,19 @@ from app.utils import get_instance_folder_path
 from app.data.models import db
 import logging
 from app.cache import cache
-
+from flask_mail import Mail
 
 app = Flask(__name__, instance_path=get_instance_folder_path(),
             instance_relative_config=True,
             template_folder='templates')
 
+
 configure_app(app)
 
 cache.init_app(app)
-with app.app_context():
-    print("cache cleared")
-    cache.clear()
 
-    
+with app.app_context():
+    cache.clear()
 
 app.register_blueprint(client, url_prefix='/')
 app.register_blueprint(admin, url_prefix='/admin')
@@ -38,7 +37,7 @@ def internal_server_error(error):
     app.logger.error('Server Error: %s', (error))
     return render_template('500.htm'), 500
 
-@app.errorhandler(Exception)
-def unhandled_exception(e):
-    app.logger.error('Unhandled Exception: %s', (e))
-    return render_template('500.html'), 500
+# @app.errorhandler(Exception)
+# def unhandled_exception(e):
+#     app.logger.error('Unhandled Exception: %s', (e))
+#     return render_template('500.html'), 500

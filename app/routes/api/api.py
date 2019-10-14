@@ -9,7 +9,7 @@ api = Blueprint('api', __name__)
 def sports_data():
     return to_response(sports_api.sports_all())
 
-@api.route('/signup/user/schema')
+@api.route('/signup/user/schema', methods=["GET"])
 def signup_schema():
     return login_api.sign_up_schema()
 
@@ -23,4 +23,4 @@ def login_schema():
 
 @api.route('/login/user/submit', methods=["POST"])
 def login_user():
-    return login_api.sign_up_check(request.json)
+    return login_api.login_check(request.json)

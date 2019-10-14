@@ -1,6 +1,7 @@
 import os
 import logging
 from flask_compress import Compress
+from flask_mail import Mail
 
 class BaseConfig(object):
     DEBUG = False
@@ -66,5 +67,16 @@ def configure_app(app):
     formatter = logging.Formatter(app.config['LOGGING_FORMAT'])
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
+    app.config.update(dict(
+        DEBUG = True,
+        MAIL_SERVER = 'smtp.gmail.com',
+        MAIL_PORT = 587,
+        MAIL_USE_TLS = True,
+        MAIL_USE_SSL = False,
+        MAIL_USERNAME = 'sportvolt0@gmail.com',
+        MAIL_PASSWORD = '0308SDAssa',
+        MAIL_FAIL_SILENTLY=False,
+    ))
+    print("mail server started")
     #Configure Compressing
     Compress(app)

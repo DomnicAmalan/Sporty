@@ -10,6 +10,7 @@ let config = {
 
 
 module.exports = {
+    watch: true,
     entry: {
         "index":'./app/static/js/src/client/index.jsx',
         "sports": './app/static/js/src/admin/sports.jsx',
