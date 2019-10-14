@@ -1,6 +1,10 @@
 sign_up = [
-    {"name": "name", "required": True, "field_name": "Name"},
-    {"name": "uniqueID", "required": True, "field_name": "Unique ID"},
-    {"name": "mobile_number", "required": True, "field_name": "Mobile"},
-    {"name": "email", "required": True, "field_name": "Email"}
+    {"name": "name", "required": True, "field_name": "Name", "type": "text"},
+    {"name": "mobile_number", "required": True, "field_name": "Mobile", "type": "mobile"},
+    {"name": "email", "required": True, "field_name": "Email", "type": "email"}
+]
+
+login = [
+    {"name": "email", "required": True, "field_name": "Email", "type": "email"},
+    {"name": "password", "required": True, "field_name": "Password", "type": "password"}
 ]

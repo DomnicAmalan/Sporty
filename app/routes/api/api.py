@@ -15,5 +15,12 @@ def signup_schema():
 
 @api.route('/signup/user/submit', methods=["POST"])
 def signup_user():
-    print(request.data)
-    return "success"
+    return login_api.sign_up_check(request.json)
+
+@api.route('/login/user/schema')
+def login_schema():
+    return login_api.login_schema()
+
+@api.route('/login/user/submit', methods=["POST"])
+def login_user():
+    return login_api.sign_up_check(request.json)

@@ -11,3 +11,7 @@ def display_books():
 @client.route('/signup')
 def signup():
     return render_template("client/signup.html")
+
+@client.route('/login')
+def login():
+    return render_template("client/login.html")
