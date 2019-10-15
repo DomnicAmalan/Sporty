@@ -6,3 +6,4 @@ db = client[DBconfig.DB_NAME]
 
 sports_list = db.sports_list
 users = db.users
+verication_codes = db.verification_system

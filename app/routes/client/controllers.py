@@ -16,3 +16,7 @@ def signup():
 @client.route('/login')
 def login():
     return render_template("client/login.html")
+
+@client.route('/create-password')
+def verify_user_page():
+    return render_template("client/create-password.html")

@@ -1,7 +1,8 @@
 
-from flask import Blueprint, render_template, flash, request
+from flask import Blueprint, render_template, flash, request, abort
 from app.helpers.frontend_helpers import to_response, covert_to_string
 from app.api_helpers import sports_api, login_api
+from app.routes.client.controllers import verify_user_page
 
 api = Blueprint('api', __name__)
 
@@ -24,3 +25,13 @@ def login_schema():
 @api.route('/login/user/submit', methods=["POST"])
 def login_user():
     return login_api.login_check(request.json)
+
+@api.route('/verify/user/<token>', methods=["POST", "GET"])
+def verification_user(token):
+    print(login_api.confirm_token(token))
+    return verify_user_page()
+
+@api.route('/password/create', methods=["POST"])
+def create_password():
+    print(request.json)
+    return login_api.create_password(request.json['password'])

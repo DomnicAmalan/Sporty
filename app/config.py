@@ -6,6 +6,7 @@ from flask_mail import Mail
 class BaseConfig(object):
     DEBUG = False
     TESTING = False
+    SECRET_KEY = '5f18df59bd0eaafc1f2d79c396d6108d7e96073eacd0776a'
     LOGGING_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     LOGGING_LOCATION = 'sporty.log'
     LOGGING_LEVEL = logging.DEBUG
@@ -38,7 +39,6 @@ class DevelopmentConfig(BaseConfig):
     Hostname = "localhost"
     DB_Port = 27017
     DB_NAME = "local"
-    SECRET_KEY = '5f18df59bd0eaafc1f2d79c396d6108d7e96073eacd0776a'
 
 class StagingConfig(BaseConfig):
     DEBUG = False

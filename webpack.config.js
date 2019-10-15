@@ -15,7 +15,8 @@ module.exports = {
         "index":'./app/static/js/src/client/index.jsx',
         "sports": './app/static/js/src/admin/sports.jsx',
         "signup": './app/static/js/src/client/signup.jsx',
-        "login": './app/static/js/src/client/login.jsx'
+        "login": './app/static/js/src/client/login.jsx',
+        "create-password": './app/static/js/src/client/create-password.jsx'
     },
     output: {
         path: path.join(__dirname, '/app/static/js/dist'),
@@ -36,13 +37,16 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        }),
         new UglifyJSPlugin({
             test: /\.js(\?.*)?$/i,
             sourceMap: true,
             cache: false    
         }),
-        new webpack.DefinePlugin(config.mode === "production" ? {
-            '__REACT_DEVTOOLS_GLOBAL_HOOK__': '({ isDisabled: true })'
-        }: ""),
+        // new webpack.DefinePlugin(config.mode === "production" ? {
+        //     '__REACT_DEVTOOLS_GLOBAL_HOOK__': '({ isDisabled: false })'
+        // }: ""),
     ]
 };

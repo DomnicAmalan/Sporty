@@ -75,7 +75,7 @@ class SignUp extends React.Component {
         redirect_message.push(
             <div>
                 Thank You For Registering
-                <div>You will be redirected to Login. To go Now <a href="/login">Click Here</a></div>
+                <div>Please Check your mail for code. Back to login <a href="/login">Click Here</a></div>
             </div>
         )
 
