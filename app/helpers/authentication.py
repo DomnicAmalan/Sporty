@@ -31,8 +31,4 @@ def encryption(password, encode=False):
     if encode:
         return encoded
     else:
-        return decoded
-        
-
-# decode the encoded string
-    
+        return decoded    

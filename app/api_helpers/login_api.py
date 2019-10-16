@@ -50,14 +50,22 @@ def additional_signup_data(data):
     return data
 
 def login_check(data):
+    db_user = users.find_one({"email":data["email"]})
     try:
-        verfied = users.find_one({"email":data["email"]})["verified"]
-        if not verfied:
-            FAILED["message"] = "Please verify your email address"
-            return FAILED
+        if not db_user:
+            FAILED["message"] = "User not registered"
+            return FAILED 
         else:
-            SUCCESS["message"] = "Login Succesful"
-            return SUCCESS
+            if not db_user['verified']:
+                FAILED["message"] = "Please verify your email address"
+                return FAILED
+            else:
+                if authentication.encryption(data["password"], True) == db_user['password']:
+                    SUCCESS["message"] = "Login Succesful"
+                    return SUCCESS
+                else:
+                    FAILED["message"] = "Password incorrect"
+                    return FAILED
     except Exception as e:
         FAILED["message"] = "System error contact administrator amalandomnic@gmail.com"
         return FAILED
@@ -65,7 +73,6 @@ def login_check(data):
 def update_verification(email, data, delete=False):
     operation = "$set" if not delete else "$unset"
     users.update_one({'email': email}, {operation: data})
-    print("tttt")
     pass
 
 def confirm_token(token):
@@ -75,15 +82,16 @@ def confirm_token(token):
             FAILED["message"] = "Token Invalid"
             return FAILED
         else:
-            update_verification(data['email'], {"verified":True}, False)
-            update_verification(data['email'], {"verification_code":token}, True)
-            SUCCESS["message"] = "Verified Successfully"
+            SUCCESS["message"] = "Token Valid"
+            SUCCESS["email"] = data["email"]
             return SUCCESS
     except Exception as e:
         FAILED["message"] = "System error contact admin amaandomnic@gmail.com"
         return FAILED
 
-def create_password(password):
-    password = authentication.encryption(password, True)
+def create_password(data):
+    password = authentication.encryption(data["password"], True)
+    update_verification(data["email"], {"verified":True, "password":password}, False)
+    update_verification(data['email'], {"verification_code":1}, True)
     return SUCCESS
 

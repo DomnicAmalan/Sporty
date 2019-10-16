@@ -22,7 +22,7 @@ class CreatePassword extends React.Component {
 
 
     async componentDidMount(){
-        let data = {"password": "", "confirm_password": ""}
+        let data = {"password": "", "confirm_password": "", "email": this.props.email}
         this.setState({
             data: data,
             error_message: "",
@@ -83,4 +83,4 @@ class CreatePassword extends React.Component {
     }
   }
 
-  ReactDOM.render(<CreatePassword/>, document.getElementById('create-password-main-container'));
+  ReactDOM.render(<CreatePassword email={email}/>, document.getElementById('create-password-main-container'));

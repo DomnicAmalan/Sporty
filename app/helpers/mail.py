@@ -16,5 +16,5 @@ def send_confirmation_mail(email, code):
         return False
 
 def email_message_template(code):
-    link = "http://127.0.0.1:3333/verify/user/"+code
+    link = "http://127.0.0.1:3333/api/verify/user/"+code
     return render_template('others/email.html', code=link)

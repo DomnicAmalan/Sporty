@@ -77,6 +77,4 @@ def configure_app(app):
         MAIL_PASSWORD = '0308SDAssa',
         MAIL_FAIL_SILENTLY=False,
     ))
-    print("mail server started")
-    #Configure Compressing
     Compress(app)

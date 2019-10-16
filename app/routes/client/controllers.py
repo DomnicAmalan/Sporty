@@ -18,5 +18,5 @@ def login():
     return render_template("client/login.html")
 
 @client.route('/create-password')
-def verify_user_page():
-    return render_template("client/create-password.html")
+def create_password_page(email):
+    return render_template("client/create-password.html", email=email)

@@ -23,7 +23,6 @@ class Login extends React.Component{
 
     async componentDidMount(){
         Axios.get('/api/login/user/schema').then(res => {
-            console.log(res.data)
             let data = {}
             res.data.schema.forEach(fields => {
                 data[fields.name] = ""
@@ -72,7 +71,7 @@ class Login extends React.Component{
         return(
             <div>
                 {this.state.error_message ? <strong>{this.state.error_message}</strong>:""}
-                {this.state.signed_in ? <Redirect timeout={3000} redirect_url={'/login'} message={redirect_message} /> : <div>{input}<button onClick={()=>this.handleSubmit()}>Log In</button></div>}
+                {this.state.signed_in ? <Redirect timeout={3000} redirect_url={'/'} message={redirect_message} /> : <div>{input}<button onClick={()=>this.handleSubmit()}>Log In</button></div>}
             </div>
         )
     }

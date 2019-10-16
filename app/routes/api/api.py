@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, flash, request, abort
 from app.helpers.frontend_helpers import to_response, covert_to_string
 from app.api_helpers import sports_api, login_api
-from app.routes.client.controllers import verify_user_page
+from app.routes.client.controllers import create_password_page
 
 api = Blueprint('api', __name__)
 
@@ -28,10 +28,11 @@ def login_user():
 
 @api.route('/verify/user/<token>', methods=["POST", "GET"])
 def verification_user(token):
-    print(login_api.confirm_token(token))
-    return verify_user_page()
+    if login_api.confirm_token(token)['status']:
+        return create_password_page(login_api.confirm_token(token)['email'])
+    else:
+        return login_api.confirm_token(token)['message']
 
 @api.route('/password/create', methods=["POST"])
 def create_password():
-    print(request.json)
-    return login_api.create_password(request.json['password'])
+    return login_api.create_password(request.json)
