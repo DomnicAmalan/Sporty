@@ -2,6 +2,7 @@ import os
 import logging
 from flask_compress import Compress
 from flask_mail import Mail
+from redis import Redis
 
 class BaseConfig(object):
     DEBUG = False
@@ -76,5 +77,6 @@ def configure_app(app):
         MAIL_USERNAME = 'sportvolt0@gmail.com',
         MAIL_PASSWORD = '0308SDAssa',
         MAIL_FAIL_SILENTLY=False,
+        SECRET_KEY= BaseConfig.SECRET_KEY
     ))
     Compress(app)

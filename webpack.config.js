@@ -16,7 +16,8 @@ module.exports = {
         "sports": './app/static/js/src/admin/sports.jsx',
         "signup": './app/static/js/src/client/signup.jsx',
         "login": './app/static/js/src/client/login.jsx',
-        "create-password": './app/static/js/src/client/create-password.jsx'
+        "create-password": './app/static/js/src/client/create-password.jsx',
+        "dashboard": './app/static/js/src/client/dashboard.jsx'
     },
     output: {
         path: path.join(__dirname, '/app/static/js/dist'),

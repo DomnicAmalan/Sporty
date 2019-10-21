@@ -55,6 +55,7 @@ class SignUp extends React.Component {
         let urls = this.state.urls
         let data = this.state.data
         Axios.post(urls['submit_url'], data).then(res => {
+            console.log(res.data)
             res.data.status ? this.setState({signed_up: true}) : this.setState({"error_message":res.data.message})
         })
     }
@@ -83,7 +84,7 @@ class SignUp extends React.Component {
             <div>
                 {this.state.error_message ? <strong>{this.state.error_message}</strong>:""}
                 {
-                    this.state.signed_up ? <Redirect timeout={5000} redirect_url={'/login'} message={redirect_message}/> : 
+                    this.state.signed_up ? <Redirect timeout={4000} redirect_url={'/login'} message={redirect_message}/> : 
                     <div>
                         {input}
                         <button onClick={()=>this.handleSubmit()}>Sign Up</button>

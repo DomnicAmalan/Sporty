@@ -1,5 +1,5 @@
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 from app.routes.client.controllers import client
 from app.routes.admin.controllers import admin
 from app.routes.api.api import api
@@ -8,12 +8,10 @@ from app.utils import get_instance_folder_path
 from app.data.models import db
 import logging
 from app.cache import cache
-from flask_mail import Mail
 
 app = Flask(__name__, instance_path=get_instance_folder_path(),
             instance_relative_config=True,
             template_folder='templates')
-
 
 configure_app(app)
 
@@ -37,7 +35,7 @@ def internal_server_error(error):
     app.logger.error('Server Error: %s', (error))
     return render_template('500.htm'), 500
 
-# @app.errorhandler(Exception)
-# def unhandled_exception(e):
-#     app.logger.error('Unhandled Exception: %s', (e))
-#     return render_template('500.html'), 500
+@app.errorhandler(Exception)
+def unhandled_exception(e):
+    app.logger.error('Unhandled Exception: %s', (e))
+    return render_template('500.html'), 500

@@ -1,12 +1,14 @@
 
-from flask import Blueprint, render_template, flash, request, abort
+from flask import Blueprint, render_template, flash, request, abort, redirect
 from app.helpers.frontend_helpers import to_response, covert_to_string
 from app.api_helpers import sports_api, login_api
-from app.routes.client.controllers import create_password_page
+from app.routes.client.controllers import create_password_page, login
+from app.decorators.login import authorize
 
 api = Blueprint('api', __name__)
 
 @api.route('/list/sports/all', methods=["GET"])
+@authorize
 def sports_data():
     return to_response(sports_api.sports_all())
 
@@ -36,3 +38,8 @@ def verification_user(token):
 @api.route('/password/create', methods=["POST"])
 def create_password():
     return login_api.create_password(request.json)
+
+@api.route('/logout', methods=['GET'])
+def sign_out():
+    login_api.clear_session()
+    return login()

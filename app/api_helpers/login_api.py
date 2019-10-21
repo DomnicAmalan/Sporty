@@ -2,7 +2,11 @@ from app.data.models import users, verication_codes
 from app.schemas.login import sign_up, login
 from app.urls.registration import sign_up_urls, login_urls
 import json
-from app.helpers import countries, mail, verification_code, db_helpers, authentication
+from app.helpers import countries, mail, verification_code, db_helpers, authentication, validators
+from flask import session
+from datetime import datetime, timedelta
+import jwt
+from app.config import BaseConfig
 
 SUCCESS = {"message":"", "status":True}
 FAILED = {"message":"", "status":False}
@@ -22,23 +26,26 @@ def login_schema():
 
 def sign_up_check(data):
     data = clean_data(data)
-    code = verification_code.id_generator()
-    try:
-        if not check_user_exists(data):
-            users.insert_one(additional_signup_data(data))
-            update_verification(data["email"], {"verification_code":code}, False)
-            mail.send_confirmation_mail(data['email'], code)
-            SUCCESS["message"] = "Email Has been sent to you, kindly confirm"
-            return SUCCESS
-        else:
-            FAILED["message"] = "Email or Mobile number already Exists"
+    if not validators.check_empty_value(data)["status"]:
+        return validators.check_empty_value(data)
+    else:
+        code = verification_code.id_generator()
+        try:
+            if not check_user_exists(data):
+                users.insert_one(additional_signup_data(data))
+                update_verification(data["email"], {"verification_code":code}, False)
+                mail.send_confirmation_mail(data['email'], code)
+                SUCCESS["message"] = "Email Has been sent to you, kindly confirm"
+                return SUCCESS
+            else:
+                FAILED["message"] = "Email or Mobile number already Exists"
+                return FAILED
+        except Exception as e:
+            FAILED["message"] = "System Error Contact Admin amalandomnic@gmail.com"
             return FAILED
-    except Exception as e:
-        FAILED["message"] = "System Error Contact Admin amalandomnic@gmail.com"
-        return FAILED
 
 def check_user_exists(data):
-    return bool(list(users.find({"$and" : [{'email':  data['email'], "mobile_number": data["mobile_number"]}]})))
+    return bool(list(users.find({"$or" : [{'email':  data['email']}, {"mobile_number": data["mobile_number"]}]})))
 
 def clean_data(data):
     for key in data.keys():
@@ -50,8 +57,11 @@ def additional_signup_data(data):
     return data
 
 def login_check(data):
-    db_user = users.find_one({"email":data["email"]})
-    try:
+    if not validators.check_empty_value(data)["status"]:
+        return validators.check_empty_value(data)
+    else:
+        db_user = users.find_one({"email":data["email"]})
+        # try:
         if not db_user:
             FAILED["message"] = "User not registered"
             return FAILED 
@@ -61,14 +71,16 @@ def login_check(data):
                 return FAILED
             else:
                 if authentication.encryption(data["password"], True) == db_user['password']:
+                    print(encode_auth_token(db_user['email']))
+                    session['email'] = data["email"]
                     SUCCESS["message"] = "Login Succesful"
                     return SUCCESS
                 else:
                     FAILED["message"] = "Password incorrect"
                     return FAILED
-    except Exception as e:
-        FAILED["message"] = "System error contact administrator amalandomnic@gmail.com"
-        return FAILED
+        # except Exception as e:
+        #     FAILED["message"] = "System error contact administrator amalandomnic@gmail.com"
+        #     return FAILED
 
 def update_verification(email, data, delete=False):
     operation = "$set" if not delete else "$unset"
@@ -94,4 +106,30 @@ def create_password(data):
     update_verification(data["email"], {"verified":True, "password":password}, False)
     update_verification(data['email'], {"verification_code":1}, True)
     return SUCCESS
+
+def encode_auth_token(email):
+    """
+    Generates the Auth Token
+    :return: string
+    """
+    try:
+        payload = {
+            'exp': datetime.utcnow() + timedelta(days=0, seconds=5),
+            'iat': datetime.utcnow(),
+            'sub': email
+        }
+        auth_token = jwt.encode(
+            payload,
+            BaseConfig.SECRET_KEY,
+            algorithm='HS256'
+        )
+        data = jwt.decode(auth_token, BaseConfig.SECRET_KEY)
+        return auth_token, data
+    except Exception as e:
+        return e
+
+def clear_session():
+    session.clear()
+    return SUCCESS
+    
 

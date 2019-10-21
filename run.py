@@ -8,5 +8,4 @@ mail = Mail(app)
 # run_with_ngrok(app)
 
 if __name__ == '__main__':
-    app.run(APP_CONFIG.APP_HOST, APP_CONFIG.APP_PORT)
-    # app.run()
+    app.run(APP_CONFIG.APP_HOST, APP_CONFIG.APP_PORT, threaded=True)

@@ -20,3 +20,8 @@ def login():
 @client.route('/create-password')
 def create_password_page(email):
     return render_template("client/create-password.html", email=email)
+
+@client.route('/dashboard')
+
+def dashboard():
+    return render_template("client/dashboard.html")

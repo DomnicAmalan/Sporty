@@ -5,3 +5,6 @@ def sports_all():
     list_sports = list(sports_list.find())
     data = ObjectID_to_str(list_sports)
     return data
+
+def store_favourite_sport():
+    return "success"
