@@ -3,12 +3,10 @@ from flask import Blueprint, render_template, flash, request, abort, redirect
 from app.helpers.frontend_helpers import to_response, covert_to_string
 from app.api_helpers import sports_api, login_api
 from app.routes.client.controllers import create_password_page, login
-from app.decorators.login import authorize
 
 api = Blueprint('api', __name__)
 
 @api.route('/list/sports/all', methods=["GET"])
-@authorize
 def sports_data():
     return to_response(sports_api.sports_all())
 

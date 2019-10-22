@@ -71,8 +71,8 @@ def login_check(data):
                 return FAILED
             else:
                 if authentication.encryption(data["password"], True) == db_user['password']:
-                    print(encode_auth_token(db_user['email']))
-                    session['email'] = data["email"]
+                    session.permanent = True
+                    session['email'] = db_user['email']
                     SUCCESS["message"] = "Login Succesful"
                     return SUCCESS
                 else:
@@ -107,29 +107,9 @@ def create_password(data):
     update_verification(data['email'], {"verification_code":1}, True)
     return SUCCESS
 
-def encode_auth_token(email):
-    """
-    Generates the Auth Token
-    :return: string
-    """
-    try:
-        payload = {
-            'exp': datetime.utcnow() + timedelta(days=0, seconds=5),
-            'iat': datetime.utcnow(),
-            'sub': email
-        }
-        auth_token = jwt.encode(
-            payload,
-            BaseConfig.SECRET_KEY,
-            algorithm='HS256'
-        )
-        data = jwt.decode(auth_token, BaseConfig.SECRET_KEY)
-        return auth_token, data
-    except Exception as e:
-        return e
-
 def clear_session():
     session.clear()
     return SUCCESS
+
     
 
