@@ -32,6 +32,6 @@
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "multi-loader": "^0.1.0",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.12"
   }
 }
